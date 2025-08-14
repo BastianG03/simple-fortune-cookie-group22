@@ -6,5 +6,5 @@ services:
     environment:
       BACKEND_DNS: backend
   backend:
-    image: hcr.io/bastiang03/backend
+    image: ghcr.io/bastiang03/backend
 
