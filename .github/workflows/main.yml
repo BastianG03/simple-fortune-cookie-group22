@@ -13,5 +13,7 @@ jobs:
         uses: actions/checkout@v5
       - name: Build backend
         run: cd backend && go build
+      - name: Build frontend
+        run: cd frontend && go build
       - name: Test frontend
         run: cd frontend && go test
