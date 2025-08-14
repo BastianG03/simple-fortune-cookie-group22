@@ -30,11 +30,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: build-docker-image backend
-        run: cd backend && docker build -t ghcr.io/${{ github.repository_owner }}/backend:latest
+        run: cd backend && docker build -t ghcr.io/${{ github.repository_owner }}/backend:latest .
       - name: push docker image backend
         run: docker push ghcr.io/${{github.repository_owner}}/backend:latest
 
       - name: build docker image frontend
-        run: cd frontend && docker build -t ghcr.io/${{ github.repository_owner }}/frontend:latest
+        run: cd frontend && docker build -t ghcr.io/${{ github.repository_owner }}/frontend:latest .
       - name: push docker image frontend
         run: docker push ghcr.io/${{github.repository_owner}}/frontend:latest
