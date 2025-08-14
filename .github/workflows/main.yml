@@ -15,4 +15,3 @@ jobs:
         run: .backend/ go build
       - name: Run tests
         run: go test ./frontend
- 
