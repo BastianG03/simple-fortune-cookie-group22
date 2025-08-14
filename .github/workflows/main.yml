@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Checkout source
         uses: actions/checkout@v5
-      - name: Build
-        run: .backend/ go build
-      - name: Run tests
-        run: go test ./frontend
+      - name: Build backend
+        run: cd backend && go build
+      - name: Test frontend
+        run: cd frontend && go test
