@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: frontend
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: frontend
+  template:
+    metadata:
+      labels:
+        run: frontend
+    spec:
+      containers:
+        - image: ghcr.io/bastiang03/frontend:latest
+          name: frontend
+          env:
+            - name: BACKEND_DNS
+              value: backend
+            - name: BACKEND_PORT
+              value: "9000"
+              
