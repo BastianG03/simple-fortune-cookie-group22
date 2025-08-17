@@ -17,3 +17,6 @@ spec:
       containers:
         - image: ghcr.io/bastiang03/backend:latest
           name: backend
+          env:
+            - name: REDIS_URL
+              value: redis
