@@ -65,7 +65,7 @@ jobs:
         run: |
           kubectl --kubeconfig kubeconfig port-forward svc/backend-test 8081:80 & sleep 10
       - name: Run health check
-        run: ./test_app.sh http://localhost:8081/health
+        run: ./test_app.sh http://localhost:8081/healthz
       - name: Cleanup test deployment
         if: always()
         run: kubectl --kubeconfig kubeconfig delete -f testing/
