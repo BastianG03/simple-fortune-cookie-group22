@@ -60,7 +60,7 @@ jobs:
       - name: Deploy test backend
         run: kubectl --kubeconfig kubeconfig apply -f testing/
       - name: Wait for rollout
-        run: kubectl --kubeconfig kubeconfig rollout status deployment/backend-test --timeout=60s
+        run: kubectl --kubeconfig kubeconfig rollout status deployment/test-backend --timeout=60s
       - name: Port forward test service
         run: |
           kubectl --kubeconfig kubeconfig port-forward svc/backend-test 8081:80 & sleep 5
