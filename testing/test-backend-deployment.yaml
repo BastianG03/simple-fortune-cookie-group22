@@ -13,5 +13,7 @@ spec:
         app: backend-test
     spec:
       containers:
-        - name: backend
+        - name: backend-test
           image: ghcr.io/bastiang03/backend:latest
+          ports:
+            - containerPort: 8080
