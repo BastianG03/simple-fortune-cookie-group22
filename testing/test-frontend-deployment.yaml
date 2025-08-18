@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-test
+  name: frontend-test
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: backend-test
+      app: frontend-test
   template:
     metadata:
       labels:
-        app: backend-test
+        app: frontend-test
     spec:
       containers:
-        - name: backend-test
-          image: ghcr.io/bastiang03/backend:latest
+        - name: frontend-test
+          image: ghcr.io/bastiang03/frontend:latest
           ports:
             - containerPort: 8080
