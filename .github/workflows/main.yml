@@ -13,11 +13,11 @@ jobs:
       - name: run golangci-lint backend
         uses: golangci/golangci-lint-action@v6
         with:
-          working-directory: /backend
+          working-directory: ./backend
       - name: run golangci-lint frontennd
         uses: golangci/golangci-lint-action@v6
         with:
-          working-directory: /frontend
+          working-directory: ./frontend
   build:
     runs-on: ubuntu-latest
     steps:
