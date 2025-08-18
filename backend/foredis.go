@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"github.com/gomodule/redigo/redis"
 	"log"
+	"os"
 	"sync"
 	"time"
-	"os"
 )
 
 var dbLink redis.Conn
@@ -47,8 +47,8 @@ func init() {
 		if err != nil {
 			fmt.Println("redis hget failed", err.Error())
 		} else {
-			idx := fmt.Sprintf("%s", key.([]byte))
-			msg := fmt.Sprintf("%s", val.([]byte))
+			idx := fmt.Sprintf(string(key.([]byte)))
+			msg := fmt.Sprintf(string(val.([]byte)))
 			datastoreDefault.m[idx] = fortune{ID: idx, Message: msg}
 			fmt.Printf("%s => %s\n", key, val)
 		}
