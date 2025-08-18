@@ -73,7 +73,10 @@ func (h *fortuneHandler) List(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
-	w.Write(jsonBytes)
+	if _, err := w.Write(jsonBytes); err != nil {
+		http.Error(w, "failed to write response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *fortuneHandler) Random(w http.ResponseWriter, r *http.Request) {
@@ -122,8 +125,10 @@ func (h *fortuneHandler) Get(w http.ResponseWriter, r *http.Request) {
 
 	if !ok {
 		w.WriteHeader(http.StatusNotFound)
-		w.Write([]byte("fortune not found"))
-		return
+		if _, err := w.Write([]byte("fortune not found")); err != nil {
+			http.Error(w, "failed to write response", http.StatusInternalServerError)
+			return
+		}
 	}
 	jsonBytes, err := json.Marshal(u)
 	if err != nil {
@@ -131,7 +136,10 @@ func (h *fortuneHandler) Get(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
-	w.Write(jsonBytes)
+	if _, err := w.Write(jsonBytes); err != nil {
+		http.Error(w, "failed to write response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func (h *fortuneHandler) Create(w http.ResponseWriter, r *http.Request) {
@@ -157,17 +165,26 @@ func (h *fortuneHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
-	w.Write(jsonBytes)
+	if _, err := w.Write(jsonBytes); err != nil {
+		http.Error(w, "failed to write response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func internalServerError(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusInternalServerError)
-	w.Write([]byte("internal server error"))
+	if _, err := w.Write([]byte("internal server error")); err != nil {
+		http.Error(w, "failed to write response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func notFound(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotFound)
-	w.Write([]byte("not found"))
+	if _, err := w.Write([]byte("not found")); err != nil {
+		http.Error(w, "failed to write response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func main() {
@@ -179,5 +196,5 @@ func main() {
 	mux.Handle("/fortunes/", fortuneH)
 
 	err := http.ListenAndServe(":9000", mux)
-    fmt.Println(err)
+	fmt.Println(err)
 }
