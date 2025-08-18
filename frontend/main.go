@@ -55,7 +55,6 @@ func main() {
 		}
 
 		fmt.Fprint(w, f.Message)
-		return
 	})
 
 	http.HandleFunc("/api/all", func(w http.ResponseWriter, r *http.Request) {
@@ -86,7 +85,6 @@ func main() {
 			http.Error(w, "failed to render template", http.StatusInternalServerError)
 			return
 		}
-		return
 	})
 
 	http.HandleFunc("/api/add", func(w http.ResponseWriter, r *http.Request) {
@@ -112,10 +110,7 @@ func main() {
 			fmt.Fprint(w, err)
 			return
 		}
-
 		fmt.Fprint(w, "Cookie added!")
-
-		return
 	})
 
 	http.Handle("/", http.FileServer(http.Dir("./static")))
