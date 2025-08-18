@@ -108,7 +108,7 @@ func (h *fortuneHandler) Get(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("redis hget failed", err.Error())
 		} else {
 			if val != nil {
-				msg := fmt.Sprintf("%s", val.([]byte))
+				msg := fmt.Sprintf(string(val.([]byte)))
 				h.store.Lock()
 				h.store.m[key] = fortune{ID: key, Message: msg}
 				h.store.Unlock()
@@ -179,5 +179,5 @@ func main() {
 	mux.Handle("/fortunes/", fortuneH)
 
 	err := http.ListenAndServe(":9000", mux)
-    fmt.Println(err)
+	fmt.Println(err)
 }
