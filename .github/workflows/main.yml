@@ -1,5 +1,4 @@
 name: Go Build & Test
-
 on:
   push:
     branches: [ main ]
@@ -33,13 +32,13 @@ jobs:
         run: cd backend && docker build -t ghcr.io/bastiang03/backend:latest .
       - name: push docker image backend
         run: docker push ghcr.io/bastiang03/backend:latest
-
       - name: build docker image frontend
         run: cd frontend && docker build -t ghcr.io/bastiang03/frontend:latest .
       - name: push docker image frontend
         run: docker push ghcr.io/bastiang03/frontend:latest
-  Deploy-to-Kubernetes:
+  deploy-to-Kubernetes:
       runs-on: ubuntu-latest
+      needs: [build, docker-build]
       steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -51,4 +50,22 @@ jobs:
       - name: Deploy manifests
         run: |
           kubectl --kubeconfig kubeconfig apply -f manifests/
-
+  deploy-test:
+    runs-on: ubuntu-latest
+    needs: deploy-to-Kubernetes
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup kubeconfig
+        run: echo "${{ secrets.KUBECONFIG }}" | base64 -d > kubeconfig
+      - name: Deploy test frontend
+        run: kubectl --kubeconfig kubeconfig apply -f testing/
+      - name: Wait for rollout
+        run: kubectl --kubeconfig kubeconfig rollout status deployment/frontend-test --timeout=60s
+      - name: Port forward test service
+        run: |
+          kubectl --kubeconfig kubeconfig port-forward svc/frontend-test 8081:80 & sleep 10
+      - name: Run health check
+        run: ./test_app.sh http://localhost:8081/healthz
+      - name: Cleanup test deployment
+        if: always()
+        run: kubectl --kubeconfig kubeconfig delete -f testing/
